@@ -23,8 +23,9 @@ async function run(){
     try{
 
         await client.connect();
-        const databae = client.db('travelbooking')
-        const bookingCollection = databae.collection('booking');
+        const database = client.db('travelbooking')
+        const bookingCollection = database.collection('booking');
+        const ordersCollection = database.collection('orders')
         console.log('database is connected');
 
         //GET API
@@ -40,7 +41,24 @@ async function run(){
             const query = { _id:ObjectId(id) }
             const booked = await bookingCollection.findOne(query);
             res.send(booked);
+        });
+
+        //order post method
+        app.post('/orders',async(req,res)=>{
+            const order = req.body;
+            const result = await ordersCollection.insertOne(order);
+            // res.json(result);
+            console.log(result);
+        });
+
+        //GET API for order mange
+        app.get('/orders',async(req,res)=>{
+            const cursor = ordersCollection.find({})
+            const result = await cursor.toArray();
+            res.json(result);
+            
         })
+
         
 
     }
