@@ -35,6 +35,14 @@ async function run(){
             res.json(result);
         });
 
+        //POST API
+
+        app.post('/booking',async(req,res)=>{
+            const newService = req.body;
+            const result = await bookingCollection.insertOne(newService)
+            res.json(result);
+        })
+
         //GET API (BY SINGLE ID)
         app.get('/booking/:id',async(req,res)=>{
             const id = req.params.id;
@@ -47,8 +55,8 @@ async function run(){
         app.post('/orders',async(req,res)=>{
             const order = req.body;
             const result = await ordersCollection.insertOne(order);
-            // res.json(result);
-            console.log(result);
+            res.json(result);
+           
         });
 
         //GET API for order mange
@@ -57,7 +65,14 @@ async function run(){
             const result = await cursor.toArray();
             res.json(result);
             
-        })
+        });
+
+        //FIND ORDER BY EMAIL
+        app.get("/orders/:email", async (req, res) => {
+            const email = req.params.email;
+            const result = await ordersCollection.find({ email: email }).toArray();
+            res.json(result);
+        });
 
         
 
