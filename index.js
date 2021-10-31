@@ -59,7 +59,7 @@ async function run(){
            
         });
 
-        //GET API for order mange
+        //GET API FOR ORDER MANGE
         app.get('/orders',async(req,res)=>{
             const cursor = ordersCollection.find({})
             const result = await cursor.toArray();
